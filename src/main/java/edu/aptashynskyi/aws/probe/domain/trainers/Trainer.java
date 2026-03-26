@@ -1,13 +1,15 @@
 package edu.aptashynskyi.aws.probe.domain.trainers;
 
 import jakarta.persistence.*;
+import org.jspecify.annotations.NonNull;
+import org.springframework.data.domain.Persistable;
 
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Table(name = "trainers")
-public class Trainer {
+public class Trainer implements Persistable<TrainerId> {
 
     @EmbeddedId
     private TrainerId id;
@@ -17,6 +19,9 @@ public class Trainer {
     private String lastName;
 
     private int capacity;
+
+    @Transient
+    private boolean isNew = false;
 
     @OneToMany(mappedBy = "trainer")
     private Set<TrainerTrainee> trainees = new HashSet<>();
@@ -29,10 +34,17 @@ public class Trainer {
         this.firstName = firstName;
         this.lastName = lastName;
         this.capacity = capacity;
+        this.isNew = true;
     }
 
-    public TrainerId id() {
+    @Override
+    public @NonNull TrainerId getId() {
         return id;
+    }
+
+    @Override
+    public boolean isNew() {
+        return this.isNew;
     }
 
     @Override

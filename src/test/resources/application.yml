@@ -1,6 +1,6 @@
 spring:
   datasource:
     driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
-    url: jdbc:tc:mysql:8.0.33:///testdb
+    url: jdbc:tc:mysql:8.4.8:///test?TC_DAEMON=true
     username: test
     password: test

@@ -1,15 +1,20 @@
 package edu.aptashynskyi.aws.probe.domain;
 
 import jakarta.persistence.*;
+import org.jspecify.annotations.NonNull;
+import org.springframework.data.domain.Persistable;
 
 @Entity
 @Table(name = "attendees")
-public class Attendee {
+public class Attendee implements Persistable<AttendeeId> {
 
     @EmbeddedId
     private AttendeeId id;
     private String firstName;
     private String lastName;
+
+    @Transient
+    private boolean isNew = false;
 
     public Attendee() {
     }
@@ -18,10 +23,17 @@ public class Attendee {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.isNew = true;
     }
 
-    public AttendeeId id() {
+    @Override
+    public @NonNull AttendeeId getId() {
         return id;
+    }
+
+    @Override
+    public boolean isNew() {
+        return this.isNew;
     }
 
     public String firstName() {
