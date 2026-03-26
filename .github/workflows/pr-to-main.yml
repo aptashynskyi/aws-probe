@@ -1,0 +1,29 @@
+name: pr-to-main.yml
+
+on:
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+  checks: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6.0.2
+      - name: Set up JDK
+        uses: actions/setup-java@v5.2.0
+        with:
+          java-version: 25
+          distribution: corretto
+          cache: maven
+      - name: Build with Maven
+        run: ./mvnw test --fail-at-end
+      - name: Publish Test Report
+        if: success() || failure()
+        uses: scacap/action-surefire-report@v1.9.1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}

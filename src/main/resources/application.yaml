@@ -1,3 +1,7 @@
 spring:
   application:
     name: aws-probe
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false

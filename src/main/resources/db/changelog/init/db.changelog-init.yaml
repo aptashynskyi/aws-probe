@@ -1,0 +1,102 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1774456828220-1
+      author: andrii.ptashynskyi@gmail.com
+      changes:
+        - createTable:
+            tableName: trainers
+            columns:
+              - column:
+                  name: id
+                  type: binary(16)
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: first_name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: capacity
+                  type: int
+                  constraints:
+                    nullable: false
+  - changeSet:
+      id: 1774456828220-2
+      author: andrii.ptashynskyi@gmail.com
+      changes:
+        - createTable:
+            tableName: attendees
+            columns:
+              - column:
+                  name: id
+                  type: binary(16)
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: first_name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+  - changeSet:
+      id: 1774456828220-3
+      author: andrii.ptashynskyi@gmail.com
+      changes:
+        - createTable:
+            tableName: trainee
+            columns:
+              - column:
+                  name: id
+                  type: binary(16)
+                  constraints:
+                    primaryKey: true
+        - addForeignKeyConstraint:
+            baseTableName: trainee
+            baseColumnNames: id
+            referencedTableName: attendees
+            referencedColumnNames: id
+            constraintName: fk_trainee_attendees
+  - changeSet:
+      id: 1774456828220-4
+      author: andrii.ptashynskyi@gmail.com
+      changes:
+        - createTable:
+            tableName: trainer_trainee
+            columns:
+              - column:
+                  name: trainer_id
+                  type: binary(16)
+              - column:
+                  name: trainee_id
+                  type: binary(16)
+              - column:
+                  name: confirmed
+                  type: bit
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseTableName: trainer_trainee
+            baseColumnNames: trainer_id
+            referencedTableName: trainers
+            referencedColumnNames: id
+            constraintName: fk_trainer_trainee_trainer
+        - addForeignKeyConstraint:
+            baseTableName: trainer_trainee
+            baseColumnNames: trainee_id
+            referencedTableName: trainee
+            referencedColumnNames: id
+            constraintName: fk_trainer_trainee_trainee
+        - addUniqueConstraint:
+            tableName: trainer_trainee
+            columnNames: trainer_id, trainee_id
+            constraintName: uc_trainer_trainee
