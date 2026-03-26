@@ -1,0 +1,4 @@
+there is a trainer
+    a trainer has a capacity
+    a trainer has a preconfigured list of training services
+    a trainer has multiple trainees

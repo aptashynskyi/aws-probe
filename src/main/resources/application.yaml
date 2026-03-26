@@ -1,3 +1,6 @@
 spring:
   application:
     name: aws-probe
+  jpa:
+    hibernate:
+      ddl-auto: validate
